@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李泽瑜 (E将军) | Web3 Cultivator</title>
+    <meta name="description" content="李泽瑜的个人数字宇宙 - Web3 建设者与探索者">
+    
+    <!-- 引入 Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- 引入 FontAwesome 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 核心变量 (Cosmos 风格) --- */
+        :root {
+            --bg-color: #05060a;
+            --text-primary: #ffffff;
+            --text-secondary: #a4a8b6;
+            --accent-blue: #5e72e4;
+            --accent-purple: #8965e0;
+            --accent-cyan: #2dce89;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover: rgba(255, 255, 255, 0.08);
+            --gradient-main: linear-gradient(135deg, #5e72e4 0%, #8965e0 100%);
+            --font-main: 'Inter', sans-serif;
+        }
+
+        /* --- 全局重置 --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- 背景特效 --- */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #161826 0%, #05060a 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(94, 114, 228, 0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            animation: floatNebula 20s infinite ease-in-out;
+        }
+        .nebula-1 { top: -10%; left: -10%; }
+        .nebula-2 { bottom: -10%; right: -10%; background: radial-gradient(circle, rgba(137, 101, 224, 0.15) 0%, rgba(0,0,0,0) 70%); animation-delay: -10s; }
+
+        @keyframes floatNebula {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        /* --- 通用工具类 --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(to right, #fff, #a4a8b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: var(--bg-color);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-outline {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text-primary);
+            backdrop-filter: blur(10px);
+        }
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        /* 卡片通用 */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            background: var(--card-hover);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+        }
+
+        /* --- 1. Hero 首屏 --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #b4b4b4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-quote {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-pill {
+            background: rgba(94, 114, 228, 0.1);
+            border: 1px solid rgba(94, 114, 228, 0.3);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: #aebafc;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* --- 2. About Me --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .avatar-card {
+            text-align: center;
+        }
+        .avatar-img {
+            width: 100%;
+            max-width: 280px;
+            aspect-ratio: 1/1;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.1);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 30px rgba(94, 114, 228, 0.2);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+        .skill-tag {
+            font-size: 0.85rem;
+            padding: 6px 14px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+            transition: 0.3s;
+        }
+        .skill-tag:hover {
+            border-color: var(--accent-purple);
+            color: #fff;
+            background: rgba(137, 101, 224, 0.1);
+        }
+
+        /* --- 3. 核心项目 --- */
+        .featured-project {
+            border: 1px solid var(--accent-cyan);
+            background: linear-gradient(180deg, rgba(45, 206, 137, 0.05) 0%, rgba(0,0,0,0) 100%);
+            box-shadow: 0 0 30px rgba(45, 206, 137, 0.1);
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .featured-badge {
+            display: inline-block;
+            background: var(--accent-cyan);
+            color: #000;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            width: fit-content;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .project-card h4 { margin-bottom: 10px; font-size: 1.2rem; }
+        .project-card p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 15px; }
+        .project-link { font-size: 0.85rem; color: var(--accent-blue); font-weight: 600; }
+
+        /* --- 4. 时间线 --- */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--accent-purple), transparent);
+        }
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--bg-color);
+            border: 3px solid var(--accent-purple);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 0 10px var(--accent-purple);
+        }
+        .timeline-content {
+            width: 45%;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+        }
+        .timeline-date {
+            color: var(--accent-purple);
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .timeline-item:nth-child(odd) { flex-direction: row-reverse; }
+        .timeline-item:nth-child(odd) .timeline-content { text-align: left; }
+        .timeline-item:nth-child(even) .timeline-content { text-align: right; }
+
+        /* --- 5. 博客/动态 --- */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .tweet-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .tweet-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .tweet-avatar { width: 40px; height: 40px; border-radius: 50%; }
+        .tweet-handle { font-size: 0.9rem; color: var(--text-secondary); }
+        .tweet-link {
+            margin-top: auto;
+            padding-top: 15px;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* --- 6. 联系 & 页脚 --- */
+        .contact-section { text-align: center; }
+        .contact-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .footer-social {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .footer-social:hover { color: var(--accent-blue); }
+
+        /* --- 动画类 --- */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 响应式 --- */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 3rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            .avatar-img { margin: 0 auto 1.5rem; }
+            .timeline::before { left: 20px; }
+            .timeline-dot { left: 20px; }
+            .timeline-item { flex-direction: column; align-items: flex-start; margin-left: 50px; }
+            .timeline-item:nth-child(odd) { flex-direction: column; }
+            .timeline-content { width: 100%; text-align: left !important; }
+            .hero-btns { flex-direction: column; width: 100%; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 背景粒子 -->
+    <div id="particles-js"></div>
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+
+    <!-- 1. Hero 首屏 -->
+    <section class="hero container">
+        <div class="hero-content fade-up">
+            <div class="hero-subtitle">Web3 Cultivator | 2005.10.15 CN</div>
+            <h1>李泽瑜<br><span style="font-weight: 300; font-size: 0.6em; color: var(--text-secondary);">(E将军)</span></h1>
+            <p class="hero-quote">"在 Web3 的星河里持续建设与学习，保持冷静，保持进步。"</p>
+            
+            <div class="stats-row">
+                <div class="stat-pill"><i class="fas fa-user-astronaut"></i> 20 岁</div>
+                <div class="stat-pill"><i class="fab fa-twitter"></i> 1344+ Followers</div>
+                <div class="stat-pill"><i class="fas fa-code-branch"></i> Web3 Builder</div>
+            </div>
+
+            <div class="hero-btns">
+                <a href="https://x.com/svsh441728" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-x-twitter"></i> 我的 X 主页
+                </a>
+                <a href="https://x.com/svsh441728" target="_blank" class="btn btn-outline">
+                    <i class="fas fa-paper-plane"></i> 立即 DM 联系
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. About Me -->
+    <section class="container">
+        <h2 class="fade-up">关于我 · Li Zeyu</h2>
+        <div class="about-grid fade-up">
+            <div class="avatar-card">
+                <img src="https://pbs.twimg.com/profile_images/1831344916032892928/AjIhgWO3.jpg" alt="Li Zeyu Avatar" class="avatar-img">
+                <div class="card" style="padding: 1rem;">
+                    <h4 style="color: var(--accent-cyan);">极客精神</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">执行力强 | 快速学习</p>
+                </div>
+            </div>
+            <div class="card">
+                <h3 style="margin-bottom: 1rem;">Web3 深度建设者</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    我是李泽瑜，2005年出生于中国。自2023年踏入 Web3 领域以来，我始终坚持高强度的学习与输出。我不只是旁观者，更是建设者。
+                </p>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    目前最令我骄傲的身份是 <strong>Winnly (@winnly_app)</strong> 的早期建设者。我相信去中心化技术将重塑未来的数字交互方式。
+                </p>
+                
+                <h4 style="margin-bottom: 0.5rem;">技能栈</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag"><i class="fab fa-react"></i> React / Next.js</span>
+                    <span class="skill-tag"><i class="fab fa-node"></i> Node.js</span>
+                    <span class="skill-tag"><i class="fas fa-cube"></i> Solidity</span>
+                    <span class="skill-tag"><i class="fab fa-rust"></i> Rust (Learning)</span>
+                    <span class="skill-tag"><i class="fab fa-figma"></i> Figma</span>
+                    <span class="skill-tag"><i class="fas fa-robot"></i> AI Tools</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 核心项目 -->
+    <section class="container">
+        <h2 class="fade-up">项目生态</h2>
+        
+        <!-- 重点项目 -->
+        <div class="card featured-project fade-up">
+            <div>
+                <span class="featured-badge">核心贡献</span>
+                <h3 style="font-size: 1.8rem; margin: 10px 0;">Winnly App</h3>
+                <p style="color: #ddd; max-width: 700px;">
+                    基于 Android 的 Skill-based Mini Games 真实奖励平台。作为早期建设者，参与了社区构建与 Alpha 测试反馈。在这里，技巧就是财富。
+                </p>
+            </div>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <a href="https://x.com/winnly_app" target="_blank" class="btn btn-primary" style="background: var(--accent-cyan); color: #000;">
+                    <i class="fab fa-twitter"></i> 项目官推
+                </a>
+                <button class="btn btn-outline">加入等候名单</button>
+            </div>
+        </div>
+
+        <!-- 其他项目网格 -->
+        <div class="projects-grid fade-up">
+            <div class="card project-card">
+                <div style="color: var(--accent-purple); margin-bottom: 10px;"><i class="fas fa-bolt"></i> 社区贡献</div>
+                <h4>Spark 中文社区</h4>
+                <p>积极参与 Spark 协议的中文文档翻译与社区治理讨论，推动协议在华语区的普及。</p>
+                <span class="project-link">持续建设中 -></span>
+            </div>
+            <div class="card project-card">
+                <div style="color: var(--accent-blue); margin-bottom: 10px;"><i class="fas fa-cookie-bite"></i> 活跃参与</div>
+                <h4>Cookie SNAPS</h4>
+                <p>在 Cookie 生态中保持高活跃度，SNAPS 积分排名靠前，深度体验数据层交互。</p>
+                <span class="project-link">Top 5% 活跃 -></span>
+            </div>
+            <div class="card project-card">
+                <div style="color: var(--text-secondary); margin-bottom: 10px;"><i class="fas fa-flask"></i> 早期测试</div>
+                <h4>DeFi Alpha Testnet</h4>
+                <p>参与了多个未发币 DeFi 协议的测试网交互，提交 Bug 报告 10+ 份。</p>
+                <span class="project-link">查看链上记录 -></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 成长时间线 -->
+    <section class="container">
+        <h2 class="fade-up">星际航行日志</h2>
+        <div class="timeline fade-up">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2025 (目标)</span>
+                    <h3>持续爆发</h3>
+                    <p>X 粉丝突破 1300+，SNAPS 积分前列，在 Winnly 生态中发挥更大作用。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2024 Q4</span>
+                    <h3>Winnly 建设者</h3>
+                    <p>正式成为 Winnly App 早期建设者，深度参与项目冷启动阶段。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2024 全年</span>
+                    <h3>深度参与</h3>
+                    <p>高强度交互，参与 Spark、Cookie 等多个优质项目的社区建设。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2023 Q4</span>
+                    <h3>启航</h3>
+                    <p>正式进入 Web3 领域，开始系统性学习区块链技术与加密经济学。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 动态/博客 -->
+    <section class="container">
+        <h2 class="fade-up">最新信号</h2>
+        <div class="blog-grid fade-up">
+            <div class="card tweet-card">
+                <div class="tweet-header">
+                    <img src="https://pbs.twimg.com/profile_images/1831344916032892928/AjIhgWO3.jpg" class="tweet-avatar" alt="avatar">
+                    <div>
+                        <div style="font-weight: 700;">李泽瑜 (E将军)</div>
+                        <div class="tweet-handle">@svsh441728</div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem;">Web3 的魅力在于，你永远不知道下一个 Alpha 在哪里，但只要保持在场，机会总会撞上你。保持饥饿！🚀 #Web3 #Builder</p>
+                <a href="https://x.com/svsh441728" target="_blank" class="tweet-link">在 X 查看原文 <i class="fas fa-external-link-alt"></i></a>
+            </div>
+            <div class="card tweet-card">
+                <div class="tweet-header">
+                    <img src="https://pbs.twimg.com/profile_images/1831344916032892928/AjIhgWO3.jpg" class="tweet-avatar" alt="avatar">
+                    <div>
+                        <div style="font-weight: 700;">李泽瑜 (E将军)</div>
+                        <div class="tweet-handle">@svsh441728</div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem;">Winnly 的设计逻辑真的很强，Skill-based gaming 绝对是 Mass Adoption 的一个重要切口。看好！💎</p>
+                <a href="https://x.com/svsh441728" target="_blank" class="tweet-link">在 X 查看原文 <i class="fas fa-external-link-alt"></i></a>
+            </div>
+            <div class="card tweet-card">
+                <div class="tweet-header">
+                    <img src="https://pbs.twimg.com/profile_images/1831344916032892928/AjIhgWO3.jpg" class="tweet-avatar" alt="avatar">
+                    <div>
+                        <div style="font-weight: 700;">李泽瑜 (E将军)</div>
+                        <div class="tweet-handle">@svsh441728</div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem;">今天深入研究了 Rust 的内存管理机制，对于理解 Solana 的高性能架构很有帮助。技术是基石。📚</p>
+                <a href="https://x.com/svsh441728" target="_blank" class="tweet-link">在 X 查看原文 <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. 联系区 -->
+    <section class="container">
+        <div class="card contact-box fade-up">
+            <h2>来 Web3 星河一起建设</h2>
+            <p style="margin-bottom: 2rem; color: var(--text-secondary);">
+                无论你是开发者、项目方还是探索者，欢迎随时交流。<br>最快联系方式：直接 X DM 我。
+            </p>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <a href="https://x.com/svsh441728" target="_blank" class="btn btn-primary" style="padding: 15px 40px; font-size: 1.1rem;">
+                    <i class="fab fa-x-twitter"></i> @SVSH441728
+                </a>
+                <a href="https://x.com/winnly_app" target="_blank" class="btn btn-outline">
+                    关注 Winnly
+                </a>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.6;">Email: svsh441728@gmail.com</p>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 李泽瑜 (E将军) - Web3 Cultivator</p>
+            <a href="https://x.com/svsh441728" target="_blank" class="footer-social">
+                <i class="fab fa-x-twitter"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- 引入 Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        // --- 1. 粒子背景配置 (Cosmos 风格：稀疏、缓慢、闪烁) ---
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true, // 闪烁效果
+                    "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false }
+                },
+                "size": {
+                    "value": 2,
+                    "random": true,
+                    "anim": { "enable": false }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.1, // 非常淡的连线
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 0.5, // 极慢的流动感
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": { "enable": true, "mode": "grab" },
+                    "onclick": { "enable": true, "mode": "push" },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // --- 2. 滚动淡入动画 ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
